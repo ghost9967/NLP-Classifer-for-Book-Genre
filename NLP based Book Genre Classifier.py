@@ -55,9 +55,10 @@ data.columns = columns
 
 books = pd.DataFrame(data['book_name'])
 genre = pd.DataFrame(data['genre'])
+author = pd.DataFrame(data['author'])
 #Cleaning
 data['book_name'] = data['book_name'].fillna('No Book')
-
+data['author'] = data['author'].fillna('No Book')
 print("Data Loaded")
 # In[ ]:
 
@@ -100,7 +101,7 @@ le = joblib.load('label.pkl')
 # In[ ]:
 
 
-data['everything'] = pd.DataFrame(data['book_name'])
+data['everything'] = pd.DataFrame(data['book_name']+' '+ data['author'])
 #print (data['everything'].head(5))
 
 
@@ -200,14 +201,17 @@ print("Model Loaded Successfully")
 
 # In[ ]:
 
-
-text = input("Enter the book name \n")
-text = [text,]
-s = (vectorizer.transform(text))
+while(1):
+    text = input("Enter the book name \n")
+    auth = input("Enter the Author's \n")
+    text = text + ' ' + auth
+    text = [text,]
+    text[0] = change(text[0])
+    s = (vectorizer.transform(text))
 #s = vectorizer.fit_transform(df)
-print (s.shape)
-d = (clf.predict(s))
-print(le.inverse_transform(d)[0])
+    print (s.shape)
+    d = (clf.predict(s))
+    print(le.inverse_transform(d)[0])
 
 
 # Saving the model
